@@ -1,6 +1,8 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
+const { NODE_ENV, JWT_SECRET } = process.env;
+
 const User = require('../models/user');
 
 const { CREATED_STATUS_CODE } = require('../utils/constants');
@@ -128,7 +130,11 @@ const login = (req, res, next) => {
           if (!matched) {
             throw new UnauthorizedError('Пользователь с такой парой email - пароль не найден');
           }
-          const token = jwt.sign({ _id: user._id }, 'c01f0f02282771cb642873775aff6a58d5bd9c452389f98c07c41e333b70b069', { expiresIn: '7d' });
+          const token = jwt.sign(
+            { _id: user._id },
+            NODE_ENV === 'production' ? JWT_SECRET : 'c01f0f02282771cb642873775aff6a58d5bd9c452389f98c07c41e333b70b069',
+            { expiresIn: '7d' },
+          );
           return res.send({ token });
         });
     })

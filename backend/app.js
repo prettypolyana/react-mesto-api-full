@@ -2,6 +2,8 @@ const express = require('express');
 const mongoose = require('mongoose');
 const { celebrate, Joi, errors } = require('celebrate');
 
+require('dotenv').config();
+
 const usersRouter = require('./routes/users');
 const cardsRouter = require('./routes/cards');
 const {
