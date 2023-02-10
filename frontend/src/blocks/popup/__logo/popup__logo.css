@@ -1,0 +1,6 @@
+.popup__logo {
+    display: block;
+    margin: 26px auto 0;
+    max-height: 120px;
+    max-width: 120px;
+}

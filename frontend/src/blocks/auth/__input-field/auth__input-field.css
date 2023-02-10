@@ -1,0 +1,9 @@
+.auth__input-field {
+    margin: 0 0 17px;
+    padding: 0;
+    border: 0;
+}
+
+.auth__input-field:last-of-type {
+  margin-bottom: 0;
+}
