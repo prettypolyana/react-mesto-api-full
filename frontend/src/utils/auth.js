@@ -16,7 +16,7 @@ export function register(email, password) {
             return res.json();
         }
 
-        return Promise.reject(`Ошибка: ${res.error}`);
+        return Promise.reject(`Ошибка: ${res.message}`);
     });
 }
 

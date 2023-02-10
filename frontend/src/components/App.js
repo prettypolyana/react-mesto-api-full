@@ -231,7 +231,6 @@ class App extends React.Component {
         this.setState({
           isLoginSuccess: true,
         });
-        console.log("here");
         return res;
       })
       .then((res) => {
@@ -243,8 +242,8 @@ class App extends React.Component {
               this.setState({
                 userEmail: userData.email,
               });
-              // this.loadUserAndCards();
-              // this.props.history.push('/');
+              this.loadUserAndCards();
+              this.props.history.push('/');
               return userData;
             })
             .catch((err) => {
