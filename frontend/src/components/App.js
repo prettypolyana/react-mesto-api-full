@@ -54,7 +54,7 @@ class App extends React.Component {
         .then((res) => {
           if (res) {
             this.setState({
-              userEmail: res.data.email,
+              userEmail: res.email,
             }, () => {
               this.setState({
                 loggedIn: true,
@@ -75,7 +75,7 @@ class App extends React.Component {
       .then(([userData, cardsData]) => {
           this.setState({
             currentUser: userData,
-            cards: cardsData,
+            cards: cardsData.reverse(),
           });
       })
       .catch((err) => {
@@ -117,7 +117,7 @@ class App extends React.Component {
   }
 
   handleCardLike = (card) => {
-    const isLiked = card.likes.some(i => i._id === this.state.currentUser._id);
+    const isLiked = card.likes.some(i => i === this.state.currentUser._id);
     if (isLiked) {
       api.removeLike(card._id)
         .then((newCard) => {
@@ -231,6 +231,7 @@ class App extends React.Component {
         this.setState({
           isLoginSuccess: true,
         });
+        console.log("here");
         return res;
       })
       .then((res) => {
@@ -240,10 +241,10 @@ class App extends React.Component {
                 loggedIn: true,
               });
               this.setState({
-                userEmail: userData.data.email,
+                userEmail: userData.email,
               });
-              this.loadUserAndCards();
-              this.props.history.push('/');
+              // this.loadUserAndCards();
+              // this.props.history.push('/');
               return userData;
             })
             .catch((err) => {

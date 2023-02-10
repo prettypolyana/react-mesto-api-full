@@ -12,6 +12,7 @@ const {
 const serverErrorHandler = require('./middlewares/serverErrorHandler');
 
 const auth = require('./middlewares/auth');
+const cors = require('./middlewares/cors');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 const { URL_REGEX } = require('./utils/constants');
@@ -25,6 +26,8 @@ mongoose.connect('mongodb://localhost:27017/mestodb', {
 const app = express();
 
 const { PORT = 3000 } = process.env;
+
+app.use(cors);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

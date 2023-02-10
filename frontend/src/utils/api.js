@@ -4,16 +4,23 @@ class Api {
         this._headers = headers;
     }
 
+    _getHeaders() {
+        const jwt = localStorage.getItem("jwt");
+        const headers = this._headers;
+        headers.authorization = `Bearer ${jwt}`;
+        return headers;
+    }
+
     getUserInfo() {
         return this._request(`${this._baseUrl}/users/me`, {
-            headers: this._headers
+            headers: this._getHeaders()
         });
     }
 
     setUserInfo(name, about) {
         return this._request(`${this._baseUrl}/users/me`, {
             method: 'PATCH',
-            headers: this._headers,
+            headers: this._getHeaders(),
             body: JSON.stringify({
                 name: name,
                 about: about
@@ -24,7 +31,7 @@ class Api {
     setAvatar(avatar) {
         return this._request(`${this._baseUrl}/users/me/avatar`, {
             method: 'PATCH',
-            headers: this._headers,
+            headers: this._getHeaders(),
             body: JSON.stringify({
                 avatar: avatar
               })
@@ -33,14 +40,14 @@ class Api {
 
     getInitialCards() {
         return this._request(`${this._baseUrl}/cards`, {
-            headers: this._headers
+            headers: this._getHeaders()
         });
     }
 
     addCard(name, link) {
         return this._request(`${this._baseUrl}/cards`, {
             method: 'POST',
-            headers: this._headers,
+            headers: this._getHeaders(),
             body: JSON.stringify({
                 name: name,
                 link: link
@@ -51,21 +58,21 @@ class Api {
     removeCard(cardId) {
         return this._request(`${this._baseUrl}/cards/${cardId}`, {
             method: 'DELETE',
-            headers: this._headers
+            headers: this._getHeaders()
         });
     }
 
     addLike(cardId) {
         return this._request(`${this._baseUrl}/cards/${cardId}/likes`, {
             method: 'PUT',
-            headers: this._headers
+            headers: this._getHeaders()
         });
     }
 
     removeLike(cardId) {
         return this._request(`${this._baseUrl}/cards/${cardId}/likes`, {
             method: 'DELETE',
-            headers: this._headers
+            headers: this._getHeaders()
         });
     }
 
@@ -83,9 +90,8 @@ class Api {
 }
 
 export default new Api({
-    baseUrl: "https://mesto.nomoreparties.co/v1/cohort-52",
+    baseUrl: "https://api.pollyandrrrr.students.nomoredomainsclub.ru",
     headers: {
-        authorization: "18fd22a9-bd6c-4b30-bd49-59a46708c9f3",
         "Content-Type": "application/json",
     },
 });
