@@ -18,7 +18,7 @@ mongoose.connect('mongodb://localhost:27017/mestodb', {
 
 const app = express();
 
-const { PORT = 8080 } = process.env;
+const { PORT = 3000 } = process.env;
 
 app.use(cors);
 

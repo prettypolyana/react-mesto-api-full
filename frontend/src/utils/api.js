@@ -90,7 +90,7 @@ class Api {
 }
 
 export default new Api({
-    baseUrl: "http://localhost:8080",
+    baseUrl: "https://api.pollyandrrrr.students.nomoredomainsclub.ru",
     headers: {
         "Content-Type": "application/json",
     },
