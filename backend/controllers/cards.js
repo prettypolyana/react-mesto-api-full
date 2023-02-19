@@ -8,6 +8,7 @@ const { CREATED_STATUS_CODE } = require('../utils/constants');
 
 const getCards = (req, res, next) => {
   Card.find({})
+    .populate(['owner', 'likes'])
     .then((cards) => res.send(cards))
     .catch((err) => {
       next(next(err));
@@ -30,10 +31,11 @@ const createCard = (req, res, next) => {
 
 const deleteCard = (req, res, next) => {
   Card.findById(req.params.cardId)
+    .populate(['owner', 'likes'])
     .then((card) => {
       if (!card) {
         throw new NotFoundError('Карточка с указанным _id не найдена');
-      } else if (req.user._id !== card.owner.toString()) {
+      } else if (req.user._id !== card.owner._id.toString()) {
         throw new AccessDeniedError('Можно удалять только свои карточки');
       } else {
         card.remove()
@@ -57,13 +59,14 @@ const addLike = (req, res, next) => {
     req.params.cardId,
     { $addToSet: { likes: req.user._id } },
     { new: true },
-  ).then((card) => {
-    if (!card) {
-      throw new NotFoundError('Карточка с указанным _id не найдена');
-    } else {
-      res.send(card);
-    }
-  })
+  ).populate(['owner', 'likes'])
+    .then((card) => {
+      if (!card) {
+        throw new NotFoundError('Карточка с указанным _id не найдена');
+      } else {
+        res.send(card);
+      }
+    })
     .catch((err) => {
       if (err.name === 'CastError') {
         next(new ValidationError('Передан некорректный _id карточки'));
@@ -78,13 +81,14 @@ const removeLike = (req, res, next) => {
     req.params.cardId,
     { $pull: { likes: req.user._id } },
     { new: true },
-  ).then((card) => {
-    if (!card) {
-      throw new NotFoundError('Карточка с указанным _id не найдена');
-    } else {
-      res.send(card);
-    }
-  })
+  ).populate(['owner', 'likes'])
+    .then((card) => {
+      if (!card) {
+        throw new NotFoundError('Карточка с указанным _id не найдена');
+      } else {
+        res.send(card);
+      }
+    })
     .catch((err) => {
       if (err.name === 'CastError') {
         next(new ValidationError('Передан некорректный _id карточки'));
